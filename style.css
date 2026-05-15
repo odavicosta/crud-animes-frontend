@@ -1,0 +1,338 @@
+:root {
+    --bg-dark: #0a0a0c;
+    --bg-card: #151518;
+    --bg-input: #1f1f24;
+    --text-main: #e2e2e5;
+    --text-muted: #8e8e99;
+    
+    --gold-primary: #d4af37;
+    --gold-hover: #f1c40f;
+    --red-accent: #c0392b;
+    --red-hover: #e74c3c;
+    --border-color: #2a2a35;
+    
+    --font-title: 'Cinzel', serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* ===== RESET GLOBAL ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== HEADER / NAVBAR ===== */
+.navbar {
+    background: linear-gradient(to bottom, #000000, transparent);
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo-container h1 {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.logo-container h1 span {
+    color: var(--gold-primary);
+}
+
+.logo-container p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.filtros {
+    display: flex;
+    gap: 10px;
+}
+
+
+
+input[type="text"], select {
+    width: 100%;
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; 
+}
+
+input[type="text"]:focus, select:focus {
+    border-color: var(--gold-primary);
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+}
+
+/* ===== BOTÕES ===== */
+button {
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 4px;
+}
+
+.btn-primario {
+    background-color: var(--gold-primary);
+    color: #000;
+    padding: 10px 20px;
+}
+
+.btn-primario:hover {
+    background-color: var(--gold-hover);
+    transform: translateY(-2px);
+}
+
+.btn-salvar {
+    background-color: var(--red-accent);
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-salvar:hover {
+    background-color: var(--red-hover);
+}
+
+/* ===== ESTRUTURA PRINCIPAL (GRID) ===== */
+.container {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 30px;
+    padding: 2rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ===== FORMULÁRIO DE CADASTRO (ASIDE) ===== */
+.painel-cadastro {
+    background-color: var(--bg-card);
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.cabecalho-form h2 {
+    font-family: var(--font-title);
+    color: var(--gold-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.cabecalho-form p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.grupo-input label {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    color: var(--text-muted);
+}
+
+.linha-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* CHECKBOXES CUSTOMIZADOS */
+.grupo-checkbox {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding: 10px 0;
+    border-top: 1px dashed var(--border-color);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    cursor: pointer;
+    gap: 8px;
+}
+
+.checkbox-container input {
+    accent-color: var(--gold-primary);
+    width: 16px;
+    height: 16px;
+}
+
+/* ===== LISTAGEM DE PERSONAGENS ===== */
+.painel-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cabecalho-lista {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabecalho-lista h2 {
+    font-family: var(--font-title);
+    font-weight: 500;
+}
+
+.contador {
+    background-color: var(--bg-card);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-color);
+}
+
+.grid-personagens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* ===== CARDS DOS PERSONAGENS ===== */
+.card-personagem {
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-personagem:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold-primary);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.card-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.card-header h3 {
+    font-family: var(--font-title);
+    color: var(--gold-primary);
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.tag-magia {
+    background-color: #2c3e50;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.badge.demonio {
+    background-color: rgba(192, 57, 43, 0.2);
+    color: var(--red-hover);
+    border: 1px solid var(--red-accent);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.card-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-body p strong {
+    color: var(--text-main);
+}
+
+.card-footer {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-icone {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border-radius: 0;
+    color: var(--text-muted);
+}
+
+.btn-editar:hover {
+    color: var(--gold-primary);
+    background-color: rgba(212, 175, 55, 0.1);
+}
+
+.btn-deletar:hover {
+    color: var(--red-accent);
+    background-color: rgba(192, 57, 43, 0.1);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
+    .painel-cadastro {
+        position: relative;
+        top: 0;
+    }
+}

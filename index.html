@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Clover Wiki - Grimório</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo-container">
+            <h1>BLACK CLOVER <span>WIKI</span></h1>
+            <p>Registro Oficial de Cavaleiros Mágicos</p>
+        </div>
+        
+        <div class="filtros">
+            <input type="text" id="filtroNome" placeholder="Buscar mago...">
+            <select id="filtroMagia">
+                <option value="">Todas as Magias</option>
+                <option value="Anti-Magia">Anti-Magia</option>
+                <option value="Vento">Vento</option>
+                <option value="Fogo">Fogo</option>
+                <option value="Água">Água</option>
+            </select>
+            <button id="btnBuscar" class="btn-primario">Filtrar</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <aside class="painel-cadastro">
+            <div class="cabecalho-form">
+                <h2>Adicionar ao Grimório</h2>
+                <p>Cadastre um novo personagem</p>
+            </div>
+            
+            <form id="formPersonagem">
+                <div class="grupo-input">
+                    <label for="nome">Nome do Personagem</label>
+                    <input type="text" id="nome" placeholder="Ex: Asta" required>
+                </div>
+
+                <div class="grupo-input">
+                    <label for="magia">Atributo Mágico</label>
+                    <input type="text" id="magia" placeholder="Ex: Anti-Magia" required>
+                </div>
+                
+                <div class="linha-inputs">
+                    <div class="grupo-input">
+                        <label for="esquadrao">Esquadrão</label>
+                        <select id="esquadrao">
+                            <option value="">(Nenhum)</option>
+                            <option value="1">Touros Negros</option>
+                            <option value="2">Alvorecer Dourado</option>
+                            <option value="3">Águias de Prata</option>
+                            <option value="4">Rosa Azul</option>
+                            <option value="5">Reis Leões Carmesins</option>
+                            <option value="6">Louva-a-Deus Verdes</option>
+                            <option value="7">Pavões Corais</option>
+                            <option value="8">Órcas Púrpuras</option>
+                            <option value="9">Cervos Cianos</option>
+                        </select>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="raca">Raça Principal</label>
+                        <select id="raca" required>
+                            <option value="1">Humano</option>
+                            <option value="2">Elfo</option>
+                            <option value="3">Anão</option>
+                            <option value="4">Demônio</option>
+                        </select>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="raca">Raça Secundária</label>
+                        <select id="raca">
+                            <option value="">(Nenhuma)</option>
+                            <option value="1">Humano</option>
+                            <option value="2">Elfo</option>
+                            <option value="3">Demônio</option>
+                            <option value="4">Anão</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="linha-inputs">
+                    <div class="grupo-input">
+                        <label for="localOrigem">Local de Origem</label>
+                        <select id="localOrigem" required>
+                            <option value="1">Reino de Clover</option>
+                            <option value="2">Reino Hearth</option>
+                            <option value="3">Reino Spade</option>
+                            <option value="4">Reino Diamond</option>
+                            <option value="5">País do Sol</option>
+                            <option value="6">Floresta das Bruxas</option>
+                        </select>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="espirito">Espírito Mágico</label>
+                        <select id="espirito">
+                            <option value="">(Nenhum)</option>
+                            <option value="1">Sylph (Vento)</option>
+                            <option value="2">Salamandra (Fogo)</option>
+                            <option value="3">Undine (Água)</option>
+                            <option value="4">Desconhecido (Terra)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grupo-checkbox">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="ehNobre">
+                        <span class="checkmark"></span>
+                        Nobreza
+                    </label>
+                    
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="ehDemoniaco">
+                        <span class="checkmark"></span>
+                        Portador Demoníaco
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-salvar">Salvar Mago</button>
+            </form>
+        </aside>
+
+        <section class="painel-lista">
+            <div class="cabecalho-lista">
+                <h2>Catálogo de Magos</h2>
+                <span class="contador">0 Personagem</span>
+            </div>
+            
+            <div class="grid-personagens" id="containerPersonagens">
+                </div>
+        </section>
+
+    </main>
+
+    <script src="./app.js"></script>
+</body>
+</html>
