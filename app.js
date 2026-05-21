@@ -1,9 +1,22 @@
 const containerPersonagens = document.querySelector("#containerPersonagens");
 const contador = document.querySelector(".contador");
+const formPersonagem = document.querySelector("#formPersonagem");
 
-async function buscarPersonagens() {
+let idMagoEditando = null; 
+
+document.querySelector("#btnBuscar").addEventListener("click", () => {
+    const nome = document.querySelector("#filtroNome").value;
+    const magia = document.querySelector("#filtroMagia").value;
+    buscarPersonagens(nome, magia);
+});
+
+async function buscarPersonagens(nome = "", magia = "") {
     try {
-        const resposta = await fetch("http://127.0.0.1:5000/personagens");
+        const params = new URLSearchParams();
+        if (nome) params.append("nome", nome);
+        if (magia) params.append("magia", magia);
+    
+        const resposta = await fetch(`http://127.0.0.1:5000/personagens?${params}`);
         const personagens = await resposta.json();
         
         containerPersonagens.innerHTML = "";
@@ -11,8 +24,12 @@ async function buscarPersonagens() {
 
         personagens.forEach((mago) => {
             let badgeDemoniaco = mago.eh_portador_demoniaco 
-                ? `<span class="badge demonio" title="Portador Demoníaco">👹 Demônio</span>` 
+                ? `<span class="badge demonio" title="Portador Demoníaco">👹</span>` 
                 : "";
+
+            let badgeNobre = mago.eh_nobre
+                ? `<span class="badge nobre" title ="Nobre">NOBRE</span>`
+                : `<span class="badge plebeu" title ="Nobre">PLEBEU</span>`;
 
             const novoCard = document.createElement("div");
             novoCard.className = "card-personagem";
@@ -25,6 +42,7 @@ async function buscarPersonagens() {
                     </div>
                     <div class="badges">
                         ${badgeDemoniaco}
+                        ${badgeNobre}
                     </div>
                 </div>
                 <div class="card-body">
@@ -40,15 +58,28 @@ async function buscarPersonagens() {
             containerPersonagens.append(novoCard);
 
             const btnDeletar = novoCard.querySelector(".btn-deletar");
-            
             btnDeletar.addEventListener("click", async () => {
                 if(confirm(`Tem certeza que deseja expulsar ${mago.nome} do grimório?`)) {
-                    await fetch(`http://127.0.0.1:5000/personagens/${mago.id}`, {
-                        method: "DELETE"
-                    });
-                    
+                    await fetch(`http://127.0.0.1:5000/personagens/${mago.id}`, { method: "DELETE" });
                     buscarPersonagens(); 
                 }
+            });
+
+            const btnEditar = novoCard.querySelector(".btn-editar");
+            btnEditar.addEventListener("click", () => {
+                document.querySelector("#nome").value = mago.nome;
+                document.querySelector("#magia").value = mago.tipo_magia;
+                document.querySelector("#esquadrao").value = mago.id_esquadrao || "";
+                document.querySelector("#raca").value = mago.id_raca || "";
+                document.querySelector("#racaSecundaria").value = mago.id_raca_secundaria || "";
+                document.querySelector("#localOrigem").value = mago.id_local_origem || "";
+                document.querySelector("#espirito").value = mago.id_espirito || "";
+                document.querySelector("#ehNobre").checked = mago.eh_nobre;
+                document.querySelector("#ehDemoniaco").checked = mago.eh_portador_demoniaco;
+
+                idMagoEditando = mago.id;
+                document.querySelector(".btn-salvar").textContent = "Atualizar Mago";
+                window.scrollTo(0, 0);
             });
         });
     } catch (erro) {
@@ -56,40 +87,45 @@ async function buscarPersonagens() {
     }
 }
 
-buscarPersonagens();
-
-
-const formPersonagem = document.querySelector("#formPersonagem");
-
 formPersonagem.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
-    const novoMago = {
+    const magoDados = {
         nome: document.querySelector("#nome").value,
         tipo_magia: document.querySelector("#magia").value,
         id_esquadrao: document.querySelector("#esquadrao").value || null,
         id_raca: document.querySelector("#raca").value,
+        id_raca_secundaria: document.querySelector("#racaSecundaria").value || null,
         id_local_origem: document.querySelector("#localOrigem").value,
         id_espirito: document.querySelector("#espirito").value || null,
         eh_nobre: document.querySelector("#ehNobre").checked,
-        eh_portador_demoniaco: document.querySelector("#ehDemoniaco").checked,
-        eh_portador_atual: document.querySelector("#ehPortador").checked,
-        id_raca_secundaria: document.querySelector("#raca_secundaria").value || null,
+        eh_portador_demoniaco: document.querySelector("#ehDemoniaco").checked
     };
 
     try {
-        await fetch("http://127.0.0.1:5000/personagens", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(novoMago)
-        });
+        if (idMagoEditando === null) {
+            await fetch("http://127.0.0.1:5000/personagens", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(magoDados)
+            });
+        } else {
+            await fetch(`http://127.0.0.1:5000/personagens/${idMagoEditando}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(magoDados)
+            });
+            
+            idMagoEditando = null;
+            document.querySelector(".btn-salvar").textContent = "Salvar Mago";
+        }
 
         formPersonagem.reset();
-        buscarPersonagens();
+        buscarPersonagens();    
         
     } catch (erro) {
         console.error("Erro ao salvar o personagem:", erro);
     }
 });
+
+buscarPersonagens();

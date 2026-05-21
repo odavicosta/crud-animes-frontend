@@ -10,19 +10,47 @@
 <body>
     <header class="navbar">
         <div class="logo-container">
-            <h1>BLACK CLOVER <span>WIKI</span></h1>
-            <p>Registro Oficial de Cavaleiros Mágicos</p>
+            <h1>CATÁLOGO <span>BLACK CLOVER</span></h1>
+            <p>Registro Oficial dos Cavaleiros Mágicos</p>
         </div>
         
         <div class="filtros">
             <input type="text" id="filtroNome" placeholder="Buscar mago...">
+            
             <select id="filtroMagia">
-                <option value="">Todas as Magias</option>
+                <option value="">Todas as magias</option>
                 <option value="Anti-Magia">Anti-Magia</option>
                 <option value="Vento">Vento</option>
                 <option value="Fogo">Fogo</option>
                 <option value="Água">Água</option>
+                <option value="Trevas">Trevas</option>
+                <option value="Luz">Luz</option>
+                <option value="Relâmpago">Relâmpago</option>
             </select>
+            
+            <select id="filtroLocal">
+                <option value="">Todos os locais</option>
+                <option value="Reino de Clover">Reino de Clover</option>
+                <option value="Reino Hearth">Reino Hearth</option>
+                <option value="Reino Diamond">Reino Diamond</option>
+                <option value="Reino Spade">Reino Spade</option>
+                <option value="Floresta das Bruxas">Floresta das Bruxas</option>
+                <option value="País do Sol">País do Sol</option>
+            </select>
+            
+            <select id="filtroEsquadrao">
+                <option value="">Todos os Esquadrões</option>
+                <option value="Touros Negros">Touros Negros</option>
+                <option value="Alvorecer Dourado">Alvorecer Dourado</option>
+                <option value="Águias de Prata">Águias de Prata</option>
+                <option value="Rosa Azul">Rosa Azul</option>
+                <option value="Reis Leões Carmesins">Reis Leões Carmesins</option>
+                <option value="Louva-a-Deus Verdes">Louva-a-Deus Verdes</option>
+                <option value="Pavões Corais">Pavões Corais</option>
+                <option value="Órcas Púrpuras">Órcas Púrpuras</option>
+                <option value="Cervos Cianos">Cervos Cianos</option>
+            </select>
+            
             <button id="btnBuscar" class="btn-primario">Filtrar</button>
         </div>
     </header>
@@ -30,7 +58,7 @@
     <main class="container">
         <aside class="painel-cadastro">
             <div class="cabecalho-form">
-                <h2>Adicionar ao Grimório</h2>
+                <h2>Adicionar ao Catálogo</h2>
                 <p>Cadastre um novo personagem</p>
             </div>
             
@@ -71,8 +99,8 @@
                         </select>
                     </div>
                     <div class="grupo-input">
-                        <label for="raca">Raça Secundária</label>
-                        <select id="raca">
+                        <label for="racaSecundaria">Raça Secundária</label>
+                        <select id="racaSecundaria">
                             <option value="">(Nenhuma)</option>
                             <option value="1">Humano</option>
                             <option value="2">Elfo</option>
@@ -130,10 +158,8 @@
                 <span class="contador">0 Personagem</span>
             </div>
             
-            <div class="grid-personagens" id="containerPersonagens">
-                </div>
+            <div class="grid-personagens" id="containerPersonagens"></div>
         </section>
-
     </main>
 
     <script src="./app.js"></script>

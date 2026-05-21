@@ -4,18 +4,17 @@
     --bg-input: #1f1f24;
     --text-main: #e2e2e5;
     --text-muted: #8e8e99;
-    
     --gold-primary: #d4af37;
     --gold-hover: #f1c40f;
     --red-accent: #c0392b;
     --red-hover: #e74c3c;
+    --yellow-accent: #f39c12;
+    --yellow-hover: #f1c40f;
     --border-color: #2a2a35;
-    
     --font-title: 'Cinzel', serif;
     --font-body: 'Inter', sans-serif;
 }
 
-/* ===== RESET GLOBAL ===== */
 * {
     margin: 0;
     padding: 0;
@@ -32,12 +31,17 @@ body {
 
 /* ===== HEADER / NAVBAR ===== */
 .navbar {
-    background: linear-gradient(to bottom, #000000, transparent);
-    padding: 1.5rem 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
+    background: linear-gradient(to bottom, #000000, transparent);
+    padding: 1.5rem 5%;
     border-bottom: 1px solid var(--border-color);
+}
+
+.logo-container {
+    margin-bottom: 0;
 }
 
 .logo-container h1 {
@@ -58,15 +62,20 @@ body {
     letter-spacing: 1px;
 }
 
+/* FILTROS REORGANIZADOS */
 .filtros {
     display: flex;
     gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
-
+.filtros input,
+.filtros select {
+    min-width: 180px;
+}
 
 input[type="text"], select {
-    width: 100%;
     background-color: var(--bg-input);
     color: var(--text-main);
     border: 1px solid var(--border-color);
@@ -76,11 +85,8 @@ input[type="text"], select {
     font-size: 0.9rem;
     outline: none;
     transition: all 0.3s ease;
-    
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap; 
 }
+
 
 input[type="text"]:focus, select:focus {
     border-color: var(--gold-primary);
@@ -123,7 +129,7 @@ button {
     background-color: var(--red-hover);
 }
 
-/* ===== ESTRUTURA PRINCIPAL (GRID) ===== */
+/* ===== ESTRUTURA PRINCIPAL ===== */
 .container {
     display: grid;
     grid-template-columns: 380px 1fr;
@@ -133,7 +139,7 @@ button {
     margin: 0 auto;
 }
 
-/* ===== FORMULÁRIO DE CADASTRO (ASIDE) ===== */
+/* ===== FORMULÁRIO DE CADASTRO ===== */
 .painel-cadastro {
     background-color: var(--bg-card);
     padding: 25px;
@@ -164,6 +170,13 @@ button {
     margin-bottom: 15px;
 }
 
+.grupo-input input,
+.grupo-input select {
+    width: 100%;
+    max-width: 100%;
+    text-overflow: ellipsis;
+}
+
 .grupo-input label {
     font-size: 0.85rem;
     margin-bottom: 5px;
@@ -176,7 +189,6 @@ button {
     gap: 10px;
 }
 
-/* CHECKBOXES CUSTOMIZADOS */
 .grupo-checkbox {
     display: flex;
     justify-content: space-between;
@@ -250,19 +262,20 @@ button {
 }
 
 .card-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    
     padding: 15px;
     border-bottom: 1px solid var(--border-color);
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
 }
 
-.card-header h3 {
+.info-principal h3 {
     font-family: var(--font-title);
     color: var(--gold-primary);
     font-size: 1.3rem;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .tag-magia {
@@ -272,16 +285,40 @@ button {
     padding: 3px 8px;
     border-radius: 4px;
     text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* BADGES JUNTOS */
+.badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    border-radius: 12px;
+    font-weight: 600;
 }
 
 .badge.demonio {
     background-color: rgba(192, 57, 43, 0.2);
     color: var(--red-hover);
     border: 1px solid var(--red-accent);
-    padding: 4px 8px;
-    font-size: 0.7rem;
-    border-radius: 12px;
-    font-weight: 600;
+}
+
+.badge.nobre {
+    background-color: rgba(241, 196, 15, 0.2);
+    color: var(--yellow-hover);
+    border: 1px solid var(--yellow-accent);
+}
+
+.badge.plebeu {
+    background-color: rgba(149, 165, 166, 0.2);
+    color: #bdc3c7;
+    border: 1px solid #7f8c8d;
 }
 
 .card-body {
@@ -334,5 +371,14 @@ button {
     .painel-cadastro {
         position: relative;
         top: 0;
+    }
+    
+    .filtros {
+        flex-direction: column;
+    }
+    
+    .filtros input,
+    .filtros select {
+        width: 100%;
     }
 }
