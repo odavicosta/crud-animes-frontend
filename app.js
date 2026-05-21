@@ -7,15 +7,19 @@ let idMagoEditando = null;
 document.querySelector("#btnBuscar").addEventListener("click", () => {
     const nome = document.querySelector("#filtroNome").value;
     const magia = document.querySelector("#filtroMagia").value;
-    buscarPersonagens(nome, magia);
+    const local = document.querySelector("#filtroLocal").value;
+    const esquadrao = document.querySelector("#filtroEsquadrao").value;
+    buscarPersonagens(nome, magia, local, esquadrao);
 });
 
-async function buscarPersonagens(nome = "", magia = "") {
+async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = "") {
     try {
         const params = new URLSearchParams();
         if (nome) params.append("nome", nome);
         if (magia) params.append("magia", magia);
-    
+        if (local) params.append("local", local);
+        if (esquadrao) params.append("esquadrao", esquadrao);
+        
         const resposta = await fetch(`http://127.0.0.1:5000/personagens?${params}`);
         const personagens = await resposta.json();
         
@@ -23,6 +27,10 @@ async function buscarPersonagens(nome = "", magia = "") {
         contador.innerText = `${personagens.length} Personagem(ns)`;
 
         personagens.forEach((mago) => {
+            let linhaEspirito = mago.nome_espirito 
+            ? `<p><i class="icon">🧚‍♂️</i> <strong>Espírito:</strong> ${mago.nome_espirito}</p>` 
+            : "";
+
             let badgeDemoniaco = mago.eh_portador_demoniaco 
                 ? `<span class="badge demonio" title="Portador Demoníaco">👹</span>` 
                 : "";
@@ -49,6 +57,7 @@ async function buscarPersonagens(nome = "", magia = "") {
                     <p><i class="icon">🛡️</i> <strong>Esquadrão:</strong> ${mago.nome_esquadrao || "Nenhum"}</p>
                     <p><i class="icon">🌍</i> <strong>Origem:</strong> ${mago.nome_local}</p>
                     <p><i class="icon">🧬</i> <strong>Raça:</strong> ${mago.nome_raca}</p>
+                    ${linhaEspirito}
                 </div>
                 <div class="card-footer">
                     <button class="btn-icone btn-editar">Editar</button>
