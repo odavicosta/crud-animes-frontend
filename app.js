@@ -20,7 +20,7 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
         if (local) params.append("local", local);
         if (esquadrao) params.append("esquadrao", esquadrao);
         
-        const resposta = await fetch(`http://127.0.0.1:5000/personagens?${params}`);
+        const resposta = await fetch(`https://api-black-clover.onrender.com/personagens?${params}`);
         const personagens = await resposta.json();
         
         containerPersonagens.innerHTML = "";
@@ -69,7 +69,7 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
             const btnDeletar = novoCard.querySelector(".btn-deletar");
             btnDeletar.addEventListener("click", async () => {
                 if(confirm(`Tem certeza que deseja expulsar ${mago.nome} do grimório?`)) {
-                    await fetch(`http://127.0.0.1:5000/personagens/${mago.id}`, { method: "DELETE" });
+                    await fetch(`https://api-black-clover.onrender.com/personagens/${mago.id}`, { method: "DELETE" });
                     buscarPersonagens(); 
                 }
             });
@@ -113,13 +113,13 @@ formPersonagem.addEventListener("submit", async (e) => {
 
     try {
         if (idMagoEditando === null) {
-            await fetch("http://127.0.0.1:5000/personagens", {
+            await fetch("https://api-black-clover.onrender.com/personagens", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(magoDados)
             });
         } else {
-            await fetch(`http://127.0.0.1:5000/personagens/${idMagoEditando}`, {
+            await fetch(`https://api-black-clover.onrender.com/personagens/${idMagoEditando}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(magoDados)
