@@ -29,6 +29,8 @@ body {
     min-height: 100vh;
 }
 
+
+
 /* ===== HEADER / NAVBAR ===== */
 .navbar {
     display: flex;
@@ -62,12 +64,16 @@ body {
     letter-spacing: 1px;
 }
 
-/* FILTROS REORGANIZADOS */
+
+
+/* FILTROS ORGANIZADOS */
 .filtros {
     display: flex;
     gap: 10px;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 25px;
 }
 
 .filtros input,
@@ -129,13 +135,24 @@ button {
     background-color: var(--red-hover);
 }
 
+.btnAdicionar {
+    font-family: var(--font-title);
+    width: 230px;
+    height: 60px;
+    background-color: #1a1a1a; 
+    color: #d4af37; 
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 /* ===== ESTRUTURA PRINCIPAL ===== */
 .container {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 30px;
     padding: 2rem 5%;
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -241,8 +258,11 @@ button {
 .grid-personagens {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 24px;
+    align-items: start;
+    margin-top: 20px;
 }
+
 
 /* ===== CARDS DOS PERSONAGENS ===== */
 .card-personagem {
@@ -271,11 +291,20 @@ button {
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
 }
 
+.info-principal {
+    overflow: hidden;
+    margin-right: 10px;
+}
+
 .info-principal h3 {
     font-family: var(--font-title);
     color: var(--gold-primary);
     font-size: 1.3rem;
     margin-bottom: 8px;
+
+    white-space: nowrap;   
+    overflow: hidden; 
+    text-overflow: ellipsis;
 }
 
 .tag-magia {
@@ -288,6 +317,8 @@ button {
     display: inline-block;
     margin-bottom: 10px;
 }
+
+
 
 /* BADGES JUNTOS */
 .badges {
@@ -362,6 +393,8 @@ button {
     background-color: rgba(192, 57, 43, 0.1);
 }
 
+
+
 /* Responsividade */
 @media (max-width: 992px) {
     .container {
@@ -381,4 +414,30 @@ button {
     .filtros select {
         width: 100%;
     }
+}
+
+.icone-badge {
+    width: 16px; 
+    height: 16px;
+    vertical-align: middle;
+}
+
+.icone-espirito {
+    width: 16px; 
+    height: 16px;
+    vertical-align: middle;
+    filter: invert(100%);  
+}
+
+.icone-bc {
+    height: 100px;
+    width: 100px;
+    opacity: 0.85;
+    filter: invert(100%);  
+    transition: all 0.3s ease;
+}
+
+.icone-bc:hover {
+    opacity: 1;
+    filter: invert(100%) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }

@@ -1,8 +1,5 @@
 const containerPersonagens = document.querySelector("#containerPersonagens");
 const contador = document.querySelector(".contador");
-const formPersonagem = document.querySelector("#formPersonagem");
-
-let idMagoEditando = null; 
 
 document.querySelector("#btnBuscar").addEventListener("click", () => {
     const nome = document.querySelector("#filtroNome").value;
@@ -21,19 +18,34 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
         if (esquadrao) params.append("esquadrao", esquadrao);
         
         const resposta = await fetch(`https://api-black-clover.onrender.com/personagens?${params}`);
-        const personagens = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP: ${resposta.status}`);
+        }
+
+        const dados = await resposta.json();
+
+        const personagens = Array.isArray(dados)
+            ? dados
+            : dados.personagens ?? dados.data ?? [];
         
         containerPersonagens.innerHTML = "";
         contador.innerText = `${personagens.length} Personagem(ns)`;
 
+        if (personagens.length === 0) {
+            containerPersonagens.innerHTML = `<p style="color: var(--texto-secundario); padding: 20px;">Nenhum mago encontrado.</p>`;
+        }
+
         personagens.forEach((mago) => {
             let linhaEspirito = mago.nome_espirito 
-            ? `<p><i class="icon">🧚‍♂️</i> <strong>Espírito:</strong> ${mago.nome_espirito}</p>` 
+            ? `<p><img src="./assets/espirito.png" class="icone-espirito" alt="Ícone de Espírito"> <strong>Espírito:</strong> ${mago.nome_espirito}</p>` 
             : "";
 
             let badgeDemoniaco = mago.eh_portador_demoniaco 
-                ? `<span class="badge demonio" title="Portador Demoníaco">👹</span>` 
-                : "";
+            ? `<span class="badge demonio" title="Portador Demoníaco">
+                   <img src="./assets/demonio.png" alt="Demônio" class="icone-badge">
+               </span>` 
+            : "";
 
             let badgeNobre = mago.eh_nobre
                 ? `<span class="badge nobre" title ="Nobre">NOBRE</span>`
@@ -45,7 +57,7 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
             novoCard.innerHTML = `
                 <div class="card-header">
                     <div class="info-principal">
-                        <h3>${mago.nome}</h3>
+                        <h3 title="${mago.nome}">${mago.nome}</h3>
                         <span class="tag-magia">${mago.tipo_magia}</span>
                     </div>
                     <div class="badges">
@@ -54,9 +66,9 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
                     </div>
                 </div>
                 <div class="card-body">
-                    <p><i class="icon">🛡️</i> <strong>Esquadrão:</strong> ${mago.nome_esquadrao || "Nenhum"}</p>
-                    <p><i class="icon">🌍</i> <strong>Origem:</strong> ${mago.nome_local}</p>
-                    <p><i class="icon">🧬</i> <strong>Raça:</strong> ${mago.nome_raca}</p>
+                    <p><img src="./assets/esquadrao.svg" class="icon" alt="Ícone de Esquadrão"> <strong>Esquadrão:</strong> ${mago.nome_esquadrao || "Nenhum"}</p>
+                    <p><img src="./assets/origem.svg" class="icon" alt="Ícone de Origem"> <strong>Origem:</strong> ${mago.nome_local}</p>
+                    <p><img src="./assets/raca.svg" class="icon" alt="Ícone de Raça"> <strong>Raça:</strong> ${mago.nome_raca}</p>
                     ${linhaEspirito}
                 </div>
                 <div class="card-footer">
@@ -76,65 +88,17 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
 
             const btnEditar = novoCard.querySelector(".btn-editar");
             btnEditar.addEventListener("click", () => {
-                document.querySelector("#nome").value = mago.nome;
-                document.querySelector("#magia").value = mago.tipo_magia;
-                document.querySelector("#esquadrao").value = mago.id_esquadrao || "";
-                document.querySelector("#raca").value = mago.id_raca || "";
-                document.querySelector("#racaSecundaria").value = mago.id_raca_secundaria || "";
-                document.querySelector("#localOrigem").value = mago.id_local_origem || "";
-                document.querySelector("#espirito").value = mago.id_espirito || "";
-                document.querySelector("#ehNobre").checked = mago.eh_nobre;
-                document.querySelector("#ehDemoniaco").checked = mago.eh_portador_demoniaco;
-
-                idMagoEditando = mago.id;
-                document.querySelector(".btn-salvar").textContent = "Atualizar Mago";
-                window.scrollTo(0, 0);
+                localStorage.setItem("magoEditando", JSON.stringify(mago));
+                
+                window.location.href = "cadastro.html";
             });
         });
     } catch (erro) {
         console.error("Erro ao buscar personagens:", erro);
+        containerPersonagens.innerHTML = `<p style="color: #e74c3c; padding: 20px;">⚠️ Não foi possível conectar à API. Verifique se o servidor está ativo.</p>`;
+        contador.innerText = "0 Personagem(ns)";
     }
 }
 
-formPersonagem.addEventListener("submit", async (e) => {
-    e.preventDefault(); 
-
-    const magoDados = {
-        nome: document.querySelector("#nome").value,
-        tipo_magia: document.querySelector("#magia").value,
-        id_esquadrao: document.querySelector("#esquadrao").value || null,
-        id_raca: document.querySelector("#raca").value,
-        id_raca_secundaria: document.querySelector("#racaSecundaria").value || null,
-        id_local_origem: document.querySelector("#localOrigem").value,
-        id_espirito: document.querySelector("#espirito").value || null,
-        eh_nobre: document.querySelector("#ehNobre").checked,
-        eh_portador_demoniaco: document.querySelector("#ehDemoniaco").checked
-    };
-
-    try {
-        if (idMagoEditando === null) {
-            await fetch("https://api-black-clover.onrender.com/personagens", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(magoDados)
-            });
-        } else {
-            await fetch(`https://api-black-clover.onrender.com/personagens/${idMagoEditando}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(magoDados)
-            });
-            
-            idMagoEditando = null;
-            document.querySelector(".btn-salvar").textContent = "Salvar Mago";
-        }
-
-        formPersonagem.reset();
-        buscarPersonagens();    
-        
-    } catch (erro) {
-        console.error("Erro ao salvar o personagem:", erro);
-    }
-});
 
 buscarPersonagens();
