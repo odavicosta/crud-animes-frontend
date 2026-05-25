@@ -22,7 +22,7 @@ Interface gráfica responsiva criada para consumir a API REST do Catálogo Black
 ## Como rodar o projeto localmente
 Como o projeto utiliza JavaScript Vanilla e não possui frameworks de compilação, o setup é extremamente simples
 1. Clone este repositório.
-2. Abra a pasta do projeto no VS Code.
+2. Abra a pasta do projeto.
 3. Instale a extensão **Live Server**.
 4. Clique com o botão direito no arquivo `index.html` e selecione "Open with Live Server".
 
