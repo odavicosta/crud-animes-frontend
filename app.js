@@ -1,3 +1,7 @@
+const esc = (valor) => String(valor ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[c]));
+
 const containerPersonagens = document.querySelector("#containerPersonagens");
 const contador = document.querySelector(".contador");
 
@@ -38,7 +42,7 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
 
         personagens.forEach((mago) => {
             let linhaEspirito = mago.nome_espirito 
-            ? `<p><img src="./assets/espirito.png" class="icone-espirito" alt="Ícone de Espírito"> <strong>Espírito:</strong> ${mago.nome_espirito}</p>` 
+            ? `<p><img src="./assets/espirito.png" class="icone-espirito" alt="Ícone de Espírito"> <strong>Espírito:</strong> ${esc(mago.nome_espirito)}</p>` 
             : "";
 
             let badgeDemoniaco = mago.eh_portador_demoniaco 
@@ -57,8 +61,8 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
             novoCard.innerHTML = `
                 <div class="card-header">
                     <div class="info-principal">
-                        <h3 title="${mago.nome}">${mago.nome}</h3>
-                        <span class="tag-magia">${mago.tipo_magia}</span>
+                        <h3 title="${esc(mago.nome)}">${esc(mago.nome)}</h3>
+                        <span class="tag-magia">${esc(mago.tipo_magia)}</span>
                     </div>
                     <div class="badges">
                         ${badgeDemoniaco}
@@ -66,9 +70,9 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
                     </div>
                 </div>
                 <div class="card-body">
-                    <p><img src="./assets/esquadrao.svg" class="icon" alt="Ícone de Esquadrão"> <strong>Esquadrão:</strong> ${mago.nome_esquadrao || "Nenhum"}</p>
-                    <p><img src="./assets/origem.svg" class="icon" alt="Ícone de Origem"> <strong>Origem:</strong> ${mago.nome_local}</p>
-                    <p><img src="./assets/raca.svg" class="icon" alt="Ícone de Raça"> <strong>Raça:</strong> ${mago.nome_raca}</p>
+                    <p><img src="./assets/esquadrao.svg" class="icon" alt="Ícone de Esquadrão"> <strong>Esquadrão:</strong> ${esc(mago.nome_esquadrao || "Nenhum")}</p>
+                    <p><img src="./assets/origem.svg" class="icon" alt="Ícone de Origem"> <strong>Origem:</strong> ${esc(mago.nome_local)}</p>
+                    <p><img src="./assets/raca.svg" class="icon" alt="Ícone de Raça"> <strong>Raça:</strong> ${esc(mago.nome_raca)}</p>
                     ${linhaEspirito}
                 </div>
                 <div class="card-footer">
@@ -81,8 +85,13 @@ async function buscarPersonagens(nome = "", magia = "", local = "", esquadrao = 
             const btnDeletar = novoCard.querySelector(".btn-deletar");
             btnDeletar.addEventListener("click", async () => {
                 if(confirm(`Tem certeza que deseja expulsar ${mago.nome} do grimório?`)) {
-                    await fetch(`https://api-black-clover.onrender.com/personagens/${mago.id}`, { method: "DELETE" });
-                    buscarPersonagens(); 
+                    try {
+                        await fetchAutenticado(`https://api-black-clover.onrender.com/personagens/${mago.id}`, { method: "DELETE" });
+                        buscarPersonagens();
+                    } catch (erro) {
+                        console.error("Erro ao excluir o personagem:", erro);
+                        alert(erro.message);
+                    }
                 }
             });
 

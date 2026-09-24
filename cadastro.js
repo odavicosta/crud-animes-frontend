@@ -41,14 +41,14 @@ formPersonagem.addEventListener("submit", async (e) => {
 
     try {
         if (idMagoEditando === null) {
-            await fetch("https://api-black-clover.onrender.com/personagens", {
+            await fetchAutenticado("https://api-black-clover.onrender.com/personagens", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(magoDados)
             });
             alert("Mago cadastrado com sucesso!");
         } else {
-            await fetch(`https://api-black-clover.onrender.com/personagens/${idMagoEditando}`, {
+            await fetchAutenticado(`https://api-black-clover.onrender.com/personagens/${idMagoEditando}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(magoDados)
@@ -62,6 +62,6 @@ formPersonagem.addEventListener("submit", async (e) => {
         
     } catch (erro) {
         console.error("Erro ao salvar o personagem:", erro);
-        alert("Ocorreu um erro ao salvar.");
+        alert(`Não foi possível salvar: ${erro.message}`);
     }
 });
